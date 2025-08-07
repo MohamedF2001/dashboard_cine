@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/reservation_response.dart';
-import '../models/session_model.dart';
 import 'auth_service.dart';
 
 class ReservationService {
-  static const String _localUrl = 'http://localhost:3000';// Remplacez par votre URL
+  static const String _localUrl =
+      'http://localhost:3000'; // Remplacez par votre URL
   static const String onlineUrl = 'https://cinema-api-chi.vercel.app';
   final AuthService _authService = AuthService();
 
@@ -91,8 +91,7 @@ class ReservationService {
   Future<ReservationResponse> getReservations() async {
     try {
       //final token = await _authService.getToken();
-      final response = await http.get(
-        Uri.parse('$onlineUrl/reservations'),);
+      final response = await http.get(Uri.parse('$onlineUrl/reservations'));
 
       if (response.statusCode == 200) {
         return ReservationResponse.fromJson(json.decode(response.body));
@@ -109,9 +108,7 @@ class ReservationService {
       final token = await _authService.getToken();
       final response = await http.get(
         Uri.parse('$onlineUrl/reservations/user/$userId'),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
+        headers: {'Authorization': 'Bearer $token'},
       );
 
       if (response.statusCode == 200) {

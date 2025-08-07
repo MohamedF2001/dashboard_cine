@@ -72,7 +72,6 @@ class MovieCard extends StatelessWidget {
 }
 */
 
-
 import 'package:dashbord_cine/models/movie_response.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -83,11 +82,7 @@ class MovieCard extends StatelessWidget {
   final Movie? movie;
   final bool isLoading;
 
-  const MovieCard({
-    Key? key,
-    this.movie,
-    this.isLoading = false,
-  }) : super(key: key);
+  const MovieCard({super.key, this.movie, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +117,9 @@ class MovieCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Container(
-            width: 150,
-            height: 16,
-            color: Colors.grey[400],
-          ),
+          Container(width: 150, height: 16, color: Colors.grey[400]),
           const SizedBox(height: 4),
-          Container(
-            width: 40,
-            height: 14,
-            color: Colors.grey[400],
-          ),
+          Container(width: 40, height: 14, color: Colors.grey[400]),
         ],
       ),
     );
@@ -158,12 +145,13 @@ class MovieCard extends StatelessWidget {
               height: 260,
               width: 170,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                height: 260,
-                width: 170,
-                color: Colors.grey[300],
-                child: const Icon(Icons.broken_image),
-              ),
+              errorBuilder:
+                  (_, __, ___) => Container(
+                    height: 260,
+                    width: 170,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.broken_image),
+                  ),
             ),
           ),
         ),

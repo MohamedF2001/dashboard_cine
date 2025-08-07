@@ -1,14 +1,10 @@
 import 'package:dashbord_cine/app.dart';
-import 'package:dashbord_cine/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_file.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

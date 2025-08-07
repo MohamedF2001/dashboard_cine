@@ -1,4 +1,3 @@
-
 import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
 
@@ -6,17 +5,15 @@ class SessionResponse {
   final bool success;
   final List<Session> seances;
 
-  SessionResponse({
-    required this.success,
-    required this.seances,
-  });
+  SessionResponse({required this.success, required this.seances});
 
   factory SessionResponse.fromJson(Map<String, dynamic> json) {
     return SessionResponse(
       success: json['success'] ?? false,
-      seances: (json['seance'] as List?)
-          ?.map((item) => Session.fromJson(item))
-          .toList() ??
+      seances:
+          (json['seance'] as List?)
+              ?.map((item) => Session.fromJson(item))
+              .toList() ??
           [],
     );
   }
@@ -41,7 +38,6 @@ class CreateSessionResponse {
     );
   }
 }
-
 
 class Session {
   final String id;
@@ -77,18 +73,27 @@ class Session {
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
       id: json['_id'] ?? '',
-      filmId: json['filmId'] is int ? json['filmId'] : int.tryParse(json['filmId'] ?? '0') ?? 0,
+      filmId:
+          json['filmId'] is int
+              ? json['filmId']
+              : int.tryParse(json['filmId'] ?? '0') ?? 0,
       film: json['film'] ?? '',
       imgFilm: json['img_film'] ?? '',
-      horaire: DateTime.parse(json['horaire'] ?? DateTime.now().toIso8601String()),
+      horaire: DateTime.parse(
+        json['horaire'] ?? DateTime.now().toIso8601String(),
+      ),
       date: DateTime.parse(json['date'] ?? DateTime.now().toIso8601String()),
       salle: json['salle'] ?? '',
       typeSeance: json['typeSeance'] ?? 'Normal',
       //prix: (json['prix'] as num?)?.toDouble() ?? 0.0,
       prix: json['prix'] ?? 0,
       placesDisponibles: json['placesDisponibles'] ?? 0,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+      createdAt: DateTime.parse(
+        json['createdAt'] ?? DateTime.now().toIso8601String(),
+      ),
+      updatedAt: DateTime.parse(
+        json['updatedAt'] ?? DateTime.now().toIso8601String(),
+      ),
       v: json['__v'] ?? 0,
     );
   }
@@ -153,9 +158,8 @@ class Session {
 
   String get formattedDateWithDayY {
     initializeDateFormatting('fr', '');
-    return '${dayOfWeek} ${date.day}/${date.month}/${date.year}';
+    return '$dayOfWeek ${date.day}/${date.month}/${date.year}';
   }
-
 }
 
 class CreateSession {
@@ -192,18 +196,27 @@ class CreateSession {
   factory CreateSession.fromJson(Map<String, dynamic> json) {
     return CreateSession(
       id: json['_id'] ?? '',
-      filmId: json['filmId'] is int ? json['filmId'] : int.tryParse(json['filmId'] ?? '0') ?? 0,
+      filmId:
+          json['filmId'] is int
+              ? json['filmId']
+              : int.tryParse(json['filmId'] ?? '0') ?? 0,
       film: json['film'] ?? '',
       imgFilm: json['img_film'] ?? '',
-      horaire: DateTime.parse(json['horaire'] ?? DateTime.now().toIso8601String()),
+      horaire: DateTime.parse(
+        json['horaire'] ?? DateTime.now().toIso8601String(),
+      ),
       date: DateTime.parse(json['date'] ?? DateTime.now().toIso8601String()),
       salle: json['salle'] ?? '',
       typeSeance: json['typeSeance'] ?? 'Normal',
       //prix: (json['prix'] as num?)?.toDouble() ?? 0.0,
       prix: json['prix'] ?? 0,
       placesDisponibles: json['placesDisponibles'] ?? 0,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+      createdAt: DateTime.parse(
+        json['createdAt'] ?? DateTime.now().toIso8601String(),
+      ),
+      updatedAt: DateTime.parse(
+        json['updatedAt'] ?? DateTime.now().toIso8601String(),
+      ),
       v: json['__v'] ?? 0,
     );
   }
@@ -268,14 +281,13 @@ class CreateSession {
 
   String get formattedDateWithDayY {
     initializeDateFormatting('fr', '');
-    return '${dayOfWeek} ${date.day}/${date.month}/${date.year}';
+    return '$dayOfWeek ${date.day}/${date.month}/${date.year}';
   }
-
 }
 
 // Extension pour capitaliser la première lettre d'une String
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import '../services/movie_service.dart';
 
 class TopRatedMovie extends StatefulWidget {
+  const TopRatedMovie({super.key});
+
   @override
   State<TopRatedMovie> createState() => _PopularMovieListState();
 }
 
 class _PopularMovieListState extends State<TopRatedMovie> {
   final MovieService movieService = MovieService();
-  List<Movie> _movies = [];
+  final List<Movie> _movies = [];
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
@@ -29,7 +31,9 @@ class _PopularMovieListState extends State<TopRatedMovie> {
     });
 
     try {
-      final response = await movieService.fetchTopRatedMovies(page: _currentPage);
+      final response = await movieService.fetchTopRatedMovies(
+        page: _currentPage,
+      );
 
       setState(() {
         _movies.addAll(response.results);
@@ -37,17 +41,15 @@ class _PopularMovieListState extends State<TopRatedMovie> {
         _hasMore = response.results.isNotEmpty;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erreur: $e')));
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +59,27 @@ class _PopularMovieListState extends State<TopRatedMovie> {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Text(
-              'Les mieux notés',
-              style: TextStyle(fontWeight: FontWeight.bold,
-                fontSize: 16,color: Colors.white,)
+            'Les mieux notés',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.white,
+            ),
           ),
         ),
         SizedBox(
           height: 320,
-          child: _movies.isEmpty && _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _movies.length,
-            itemBuilder: (context, index) {
-              final movie = _movies[index];
-              return MovieCard(movie: movie);
-            },
-          ),
+          child:
+              _movies.isEmpty && _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _movies.length,
+                    itemBuilder: (context, index) {
+                      final movie = _movies[index];
+                      return MovieCard(movie: movie);
+                    },
+                  ),
         ),
         if (_hasMore)
           Padding(
@@ -81,25 +87,26 @@ class _PopularMovieListState extends State<TopRatedMovie> {
             child: Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                style:  ElevatedButton.styleFrom(
+                style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent, // Couleur du bouton
                   foregroundColor: Colors.white, // Couleur du texte
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(12), // Bordures arrondies
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ), // Bordures arrondies
                   ),
 
-                  textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold),
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onPressed: _isLoading ? null : _loadMovies,
-                child: _isLoading
-                    ? SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-                    : Text('Charger plus'),
+                child:
+                    _isLoading
+                        ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                        : Text('Charger plus'),
               ),
             ),
           ),

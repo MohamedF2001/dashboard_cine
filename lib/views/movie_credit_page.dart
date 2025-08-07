@@ -5,7 +5,7 @@ import '../services/movie_service.dart';
 class MovieCreditsPage extends StatefulWidget {
   final int movieId;
 
-  const MovieCreditsPage({Key? key, required this.movieId}) : super(key: key);
+  const MovieCreditsPage({super.key, required this.movieId});
 
   @override
   _MovieCreditsPageState createState() => _MovieCreditsPageState();
@@ -24,9 +24,7 @@ class _MovieCreditsPageState extends State<MovieCreditsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Movie Credits'),
-      ),
+      appBar: AppBar(title: const Text('Movie Credits')),
       body: FutureBuilder<MovieCredits>(
         future: _movieCredits,
         builder: (context, snapshot) {
@@ -44,12 +42,7 @@ class _MovieCreditsPageState extends State<MovieCreditsPage> {
             length: 2,
             child: Column(
               children: [
-                const TabBar(
-                  tabs: [
-                    Tab(text: 'Cast'),
-                    Tab(text: 'Crew'),
-                  ],
-                ),
+                const TabBar(tabs: [Tab(text: 'Cast'), Tab(text: 'Crew')]),
                 Expanded(
                   child: TabBarView(
                     children: [
@@ -60,10 +53,14 @@ class _MovieCreditsPageState extends State<MovieCreditsPage> {
                           final cast = credits.cast[index];
                           return ListTile(
                             leading: CircleAvatar(
-                              backgroundImage: NetworkImage(cast.fullProfilePath),
+                              backgroundImage: NetworkImage(
+                                cast.fullProfilePath,
+                              ),
                             ),
                             title: Text(cast.name),
-                            subtitle: Text(cast.character ?? 'Unknown character'),
+                            subtitle: Text(
+                              cast.character ?? 'Unknown character',
+                            ),
                             trailing: Text('#${cast.order}'),
                           );
                         },
@@ -76,15 +73,14 @@ class _MovieCreditsPageState extends State<MovieCreditsPage> {
                           final crew = credits.crew[index];
                           return ListTile(
                             leading: CircleAvatar(
-                              backgroundImage: NetworkImage(crew.fullProfilePath),
+                              backgroundImage: NetworkImage(
+                                crew.fullProfilePath,
+                              ),
                             ),
                             title: Text(crew.name),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(crew.job),
-                                Text(crew.department),
-                              ],
+                              children: [Text(crew.job), Text(crew.department)],
                             ),
                           );
                         },

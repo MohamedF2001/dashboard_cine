@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,13 +8,14 @@ import '../services/movie_service.dart';
 class MovieDetailPagee extends StatefulWidget {
   final int movieId;
 
-  const MovieDetailPagee({Key? key, required this.movieId}) : super(key: key);
+  const MovieDetailPagee({super.key, required this.movieId});
 
   @override
   _MovieDetailPageeState createState() => _MovieDetailPageeState();
 }
 
-class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProviderStateMixin {
+class _MovieDetailPageeState extends State<MovieDetailPagee>
+    with TickerProviderStateMixin {
   late Future<MovieDetails> _movieDetails;
   late Future<MovieCredits> _movieCredits;
   final MovieService _movieService = MovieService();
@@ -53,9 +53,10 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
       backgroundColor: Colors.black.withOpacity(0.4),
       appBar: AppBar(
         foregroundColor: Colors.white70,
-          elevation: 0,
-          backgroundColor: Colors.black.withOpacity(0.5),
-          centerTitle: true, title: const Text('Détails',style: TextStyle(color: Colors.white),)
+        elevation: 0,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        centerTitle: true,
+        title: const Text('Détails', style: TextStyle(color: Colors.white)),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -75,7 +76,9 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
           future: Future.wait([_movieDetails, _movieCredits]),
           builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator(color: Colors.black,));
+              return Center(
+                child: CircularProgressIndicator(color: Colors.black),
+              );
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData) {
@@ -94,12 +97,12 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
                   _buildMovieHeader(movie),
                   const SizedBox(height: 20),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
                       children: [
                         //_buildAnimatedSection( _buildGenresSection(movie),),
                         //const SizedBox(height: 30),
-                        _buildAnimatedSection(_buildDetailsSection(movie),),
+                        _buildAnimatedSection(_buildDetailsSection(movie)),
                         const SizedBox(height: 30),
 
                         // Section Cast complète
@@ -113,7 +116,8 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
                         const SizedBox(height: 10),
                         _buildCrewByDepartment(credits.crew),
                       ],
-                  ),),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -204,39 +208,19 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header shimmer
-            Container(
-              height: 550,
-              width: double.infinity,
-              color: Colors.white,
-            ),
+            Container(height: 550, width: double.infinity, color: Colors.white),
             const SizedBox(height: 20),
 
             // Overview shimmer
-            Container(
-              width: double.infinity,
-              height: 20,
-              color: Colors.white,
-            ),
+            Container(width: double.infinity, height: 20, color: Colors.white),
             const SizedBox(height: 8),
-            Container(
-              width: double.infinity,
-              height: 16,
-              color: Colors.white,
-            ),
+            Container(width: double.infinity, height: 16, color: Colors.white),
             const SizedBox(height: 8),
-            Container(
-              width: 300,
-              height: 16,
-              color: Colors.white,
-            ),
+            Container(width: 300, height: 16, color: Colors.white),
             const SizedBox(height: 30),
 
             // Genres shimmer
-            Container(
-              width: 100,
-              height: 20,
-              color: Colors.white,
-            ),
+            Container(width: 100, height: 20, color: Colors.white),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -257,44 +241,27 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
             const SizedBox(height: 30),
 
             // Details shimmer
-            Container(
-              width: 100,
-              height: 20,
-              color: Colors.white,
-            ),
+            Container(width: 100, height: 20, color: Colors.white),
             const SizedBox(height: 8),
-            ...List.generate(5, (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 100,
-                    height: 16,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 150,
-                    height: 16,
-                    color: Colors.white,
-                  ),
-                ],
+            ...List.generate(
+              5,
+              (index) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    Container(width: 24, height: 24, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Container(width: 100, height: 16, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Container(width: 150, height: 16, color: Colors.white),
+                  ],
+                ),
               ),
-            )),
+            ),
             const SizedBox(height: 30),
 
             // Cast shimmer
-            Container(
-              width: 100,
-              height: 20,
-              color: Colors.white,
-            ),
+            Container(width: 100, height: 20, color: Colors.white),
             const SizedBox(height: 10),
             GridView.builder(
               shrinkWrap: true,
@@ -306,69 +273,64 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
                 mainAxisSpacing: 10,
               ),
               itemCount: 8,
-              itemBuilder: (_, __) => Column(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
+              itemBuilder:
+                  (_, __) => Column(
+                    children: [
+                      Container(
+                        width: 70,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Container(width: 60, height: 12, color: Colors.white),
+                      const SizedBox(height: 4),
+                      Container(width: 50, height: 10, color: Colors.white),
+                    ],
                   ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: 60,
-                    height: 12,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 4),
-                  Container(
-                    width: 50,
-                    height: 10,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: 30),
 
             // Crew shimmer
-            Container(
-              width: 100,
-              height: 20,
-              color: Colors.white,
-            ),
+            Container(width: 100, height: 20, color: Colors.white),
             const SizedBox(height: 10),
-            ...List.generate(3, (index) => Column(
-              children: [
-                Container(
-                  width: 100,
-                  height: 18,
-                  color: Colors.white,
-                  margin: const EdgeInsets.only(bottom: 8),
-                ),
-                ...List.generate(3, (index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 16,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        width: 150,
-                        height: 16,
-                        color: Colors.white,
-                      ),
-                    ],
+            ...List.generate(
+              3,
+              (index) => Column(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 18,
+                    color: Colors.white,
+                    margin: const EdgeInsets.only(bottom: 8),
                   ),
-                )),
-                const SizedBox(height: 16),
-              ],
-            )),
+                  ...List.generate(
+                    3,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 16,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 150,
+                            height: 16,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -377,8 +339,10 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
 
   Widget _buildAnimatedSection(Widget child) {
     return SlideTransition(
-      position: Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
-          .animate(_fadeAnimation),
+      position: Tween<Offset>(
+        begin: const Offset(0, 0.1),
+        end: Offset.zero,
+      ).animate(_fadeAnimation),
       child: child,
     );
   }
@@ -394,7 +358,8 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    'https://image.tmdb.org/t/p/w500${movie.backdropPath}'),
+                  'https://image.tmdb.org/t/p/w500${movie.backdropPath}',
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -408,11 +373,7 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black54,
-                  Colors.black87,
-                ],
+                colors: [Colors.transparent, Colors.black54, Colors.black87],
               ),
             ),
           ),
@@ -426,33 +387,22 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
             children: [
               Text(
                 movie.title,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge
-                    ?.copyWith(
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8,),
+              const SizedBox(height: 8),
               _buildGenresSection(movie),
-              const SizedBox(height: 8,),
-              SizedBox(
-                width: 700,
-                child: _buildMovieOverview(movie),
-              ),
+              const SizedBox(height: 8),
+              SizedBox(width: 700, child: _buildMovieOverview(movie)),
               const SizedBox(height: 8),
               if (movie.tagline?.isNotEmpty ?? false)
                 Text(
                   '"${movie.tagline}"',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(
-                    color: Colors.white70,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: Colors.white70),
                 ),
               const SizedBox(height: 16),
               Row(
@@ -478,9 +428,7 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton.icon(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     icon: const Icon(Icons.play_circle_fill_outlined),
                     label: const Text('Bande-annonce'),
                     style: ElevatedButton.styleFrom(
@@ -531,14 +479,16 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: movie.genres
-              .map((genre) =>
-              Chip(
-                label: Text(genre.name),
-                backgroundColor: Colors.grey[800],
-                labelStyle: const TextStyle(color: Colors.white),
-              ))
-              .toList(),
+          children:
+              movie.genres
+                  .map(
+                    (genre) => Chip(
+                      label: Text(genre.name),
+                      backgroundColor: Colors.grey[800],
+                      labelStyle: const TextStyle(color: Colors.white),
+                    ),
+                  )
+                  .toList(),
         ),
       ],
     );
@@ -554,32 +504,47 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
           children: [
             Expanded(
               child: _buildDetailRow(
-                  Icons.calendar_today, 'Date de sortie', movie.releaseDate ?? 'N/A'),
+                Icons.calendar_today,
+                'Date de sortie',
+                movie.releaseDate ?? 'N/A',
+              ),
             ),
-            Expanded(child: _buildDetailRow(Icons.timer, 'Durée', '${movie.runtime ?? 0} min'),)
+            Expanded(
+              child: _buildDetailRow(
+                Icons.timer,
+                'Durée',
+                '${movie.runtime ?? 0} min',
+              ),
+            ),
           ],
         ),
-        SizedBox(height: 6,),
+        SizedBox(height: 6),
         Row(
           children: [
-            Expanded(child: _buildDetailRow(Icons.info_outline, 'Statut', movie.status)),
             Expanded(
-              child: _buildDetailRow(Icons.attach_money, 'Budget',
-                  '\$${movie.budget.toStringAsFixed(0)}'),
+              child: _buildDetailRow(
+                Icons.info_outline,
+                'Statut',
+                movie.status,
+              ),
+            ),
+            Expanded(
+              child: _buildDetailRow(
+                Icons.attach_money,
+                'Budget',
+                '\$${movie.budget.toStringAsFixed(0)}',
+              ),
             ),
           ],
         ),
-        SizedBox(height: 6,),
+        SizedBox(height: 6),
         _buildDetailRow(Icons.star, 'Notation', ''),
         Padding(
           padding: const EdgeInsets.only(left: 32),
           child: RatingBarIndicator(
             rating: movie.voteAverage / 2,
-            itemBuilder: (context, _) =>
-            const Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
+            itemBuilder:
+                (context, _) => const Icon(Icons.star, color: Colors.amber),
             itemCount: 5,
             itemSize: 24,
             unratedColor: Colors.white24,
@@ -605,15 +570,9 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
           children: [
             Icon(icon, color: Colors.white, size: 25),
             const SizedBox(width: 8),
-            Text(
-              '$label: ',
-              style: const TextStyle(color: Colors.white),
-            ),
+            Text('$label: ', style: const TextStyle(color: Colors.white)),
             Expanded(
-              child: Text(
-                value,
-                style: const TextStyle(color: Colors.white),
-              ),
+              child: Text(value, style: const TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -653,15 +612,18 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
               radius: 70,
               backgroundImage: NetworkImage(actor.fullProfilePath),
             ),
-            SizedBox(height: 5,),
+            SizedBox(height: 5),
             Text(
               actor.name,
-              style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
             Text(
               actor.character ?? 'Unknown',
-              style: const TextStyle(fontSize: 12,color: Colors.white),
+              style: const TextStyle(fontSize: 12, color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -679,55 +641,61 @@ class _MovieDetailPageeState extends State<MovieDetailPagee>  with TickerProvide
       'Son': crew.where((p) => p.department == 'Sound').toList(),
       'Art': crew.where((p) => p.department == 'Art').toList(),
       'Édition': crew.where((p) => p.department == 'Editing').toList(),
-      'Costume et maquillage': crew.where((p) =>
-      p.department == 'Costume & Make-Up').toList(),
-      'Effets visuels': crew
-          .where((p) => p.department == 'Visual Effects')
-          .toList(),
+      'Costume et maquillage':
+          crew.where((p) => p.department == 'Costume & Make-Up').toList(),
+      'Effets visuels':
+          crew.where((p) => p.department == 'Visual Effects').toList(),
       'Équipe': crew.where((p) => p.department == 'Crew').toList(),
     };
 
     return Column(
-      children: departments.entries.map((entry) {
-        if (entry.value.isEmpty) return const SizedBox.shrink();
+      children:
+          departments.entries.map((entry) {
+            if (entry.value.isEmpty) return const SizedBox.shrink();
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              entry.key,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...entry.value.map((person) =>
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        child: Text(
-                          person.job,
-                          style: const TextStyle(fontWeight: FontWeight.w500,color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(person.name,style: TextStyle(color: Colors.white),),
-                      ),
-                    ],
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.key,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
                   ),
-                )),
-            const SizedBox(height: 16),
-          ],
-        );
-      }).toList(),
+                ),
+                const SizedBox(height: 8),
+                ...entry.value.map(
+                  (person) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: Text(
+                            person.job,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            person.name,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            );
+          }).toList(),
     );
   }
 }
-

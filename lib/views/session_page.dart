@@ -1,12 +1,12 @@
 import 'package:dashbord_cine/views/create_seesion_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
 import '../services/session_service.dart';
 import '../models/session_model.dart';
-import 'create_reservation_page.dart';
 
 class SessionsPage extends StatefulWidget {
+  const SessionsPage({super.key});
+
   @override
   _SessionsPageState createState() => _SessionsPageState();
 }
@@ -126,28 +126,28 @@ class _SessionsPageState extends State<SessionsPage> {
           if (result == true) _loadSessions();
         },
       ),
-      body:
-           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.5), // Noir très sombre
-                  Colors.black.withOpacity(0.6), // Noir un peu plus clair
-                  Colors.black.withOpacity(0.7), // Blanc très léger
-                  Colors.black.withOpacity(0.8),
-                  Colors.black.withOpacity(0.7),
-                ],
-              ),
-            ),
-                child: _isLoading
-                    ? Center(child: CircularProgressIndicator(
-                  color: Colors.black12,
-                ))
-                    : _sessions.isEmpty
-                    ? Center(child: Text('Pas de sessions trouvées'))
-                    : Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black.withOpacity(0.5), // Noir très sombre
+              Colors.black.withOpacity(0.6), // Noir un peu plus clair
+              Colors.black.withOpacity(0.7), // Blanc très léger
+              Colors.black.withOpacity(0.8),
+              Colors.black.withOpacity(0.7),
+            ],
+          ),
+        ),
+        child:
+            _isLoading
+                ? Center(
+                  child: CircularProgressIndicator(color: Colors.black12),
+                )
+                : _sessions.isEmpty
+                ? Center(child: Text('Pas de sessions trouvées'))
+                : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                     itemCount: _sessions.length,
@@ -155,17 +155,8 @@ class _SessionsPageState extends State<SessionsPage> {
                       final session = _sessions[index];
                       return InkWell(
                         onTap: () {
-                         /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      CreateReservationPage(seance: session),
-                            ),
-                          );*/
                         },
-                        child:
-                        Card(
+                        child: Card(
                           elevation: 0.5,
                           color: Colors.transparent,
                           child: Padding(
@@ -194,10 +185,11 @@ class _SessionsPageState extends State<SessionsPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 20,),
+                                SizedBox(width: 20),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         session.film,
@@ -262,7 +254,9 @@ class _SessionsPageState extends State<SessionsPage> {
                                               SizedBox(width: 8),
                                               Text(
                                                 'Delete',
-                                                style: TextStyle(color: Colors.red),
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -284,7 +278,7 @@ class _SessionsPageState extends State<SessionsPage> {
                     },
                   ),
                 ),
-              ),
+      ),
     );
   }
 
@@ -305,10 +299,14 @@ class _SessionsPageState extends State<SessionsPage> {
         children: [
           Icon(icon, size: 20, color: Colors.white),
           SizedBox(width: 10),
-          Expanded(child: Text(text, style: TextStyle(fontSize: 16,color: Colors.white))),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
   }
-
 }

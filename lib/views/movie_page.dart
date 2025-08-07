@@ -4,6 +4,8 @@ import '../widgets/horizontal_movie_list.dart';
 import '../widgets/top_rated_movie.dart';
 
 class MoviesPage extends StatefulWidget {
+  const MoviesPage({super.key});
+
   @override
   State<MoviesPage> createState() => _MoviesPageState();
 }
@@ -16,7 +18,9 @@ class _MoviesPageState extends State<MoviesPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.black.withOpacity(0.5),
-          centerTitle: true, title: const Text('Les films',style: TextStyle(color: Colors.white),)),
+        centerTitle: true,
+        title: const Text('Les films', style: TextStyle(color: Colors.white)),
+      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -35,11 +39,11 @@ class _MoviesPageState extends State<MoviesPage> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
-                children: [
-                  HorizontalMovieList(),
-                  PopularMovieList(),
-                  TopRatedMovie(),
-                ]
+              children: [
+                HorizontalMovieList(),
+                PopularMovieList(),
+                TopRatedMovie(),
+              ],
             ),
           ),
         ),

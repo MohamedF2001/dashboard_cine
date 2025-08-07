@@ -6,7 +6,7 @@ import '../services/reservation_service.dart';
 class CreateReservationPage extends StatefulWidget {
   final Session seance;
 
-  const CreateReservationPage({Key? key, required this.seance}) : super(key: key);
+  const CreateReservationPage({super.key, required this.seance});
 
   @override
   _CreateReservationPageState createState() => _CreateReservationPageState();
@@ -27,9 +27,7 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
     final prixTotal = _nombrePlaces * widget.seance.prix;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Réserver ${widget.seance.film}'),
-      ),
+      appBar: AppBar(title: Text('Réserver ${widget.seance.film}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -130,14 +128,16 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
               ElevatedButton(
                 onPressed: _isLoading ? null : _submitReservation,
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50), backgroundColor: Colors.green,
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.green,
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                  'Confirmer la réservation',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child:
+                    _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                          'Confirmer la réservation',
+                          style: TextStyle(fontSize: 16),
+                        ),
               ),
               const SizedBox(height: 16),
 

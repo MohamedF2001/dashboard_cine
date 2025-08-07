@@ -41,7 +41,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         SnackBar(content: Text('Failed to load movies: $e')),
       );
     }
-  }*//*
+  }*/ /*
 
 
   Future<void> _loadMovies() async {
@@ -239,7 +239,6 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
   }
 }*/
 
-
 import 'package:dashbord_cine/models/movie_response.dart';
 import 'package:flutter/material.dart';
 import '../services/session_service.dart';
@@ -249,7 +248,7 @@ import '../widgets/style.dart';
 class CreateSessionPage extends StatefulWidget {
   final Session? initialSession;
 
-  CreateSessionPage({this.initialSession});
+  const CreateSessionPage({super.key, this.initialSession});
 
   @override
   _CreateSessionPageState createState() => _CreateSessionPageState();
@@ -299,15 +298,16 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         if (widget.initialSession != null) {
           // Trouver le film correspondant à la séance existante
           _selectedMovie = _movies.firstWhere(
-                (movie) => movie.id.toString() == widget.initialSession!.filmId.toString(),
+            (movie) =>
+                movie.id.toString() == widget.initialSession!.filmId.toString(),
             orElse: () => _movies.first,
           );
         }
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load movies: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to load movies: $e')));
     }
   }
 
@@ -371,9 +371,9 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         Navigator.pop(context, true);
       } catch (e) {
         print("erreur $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save session: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to save session: $e')));
       } finally {
         setState(() => _isLoading = false);
       }
@@ -385,13 +385,15 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.4),
       appBar: AppBar(
-          elevation: 0,
+        elevation: 0,
         foregroundColor: Colors.white,
         backgroundColor: Colors.black.withOpacity(0.5),
-          centerTitle: true,
-        title: Text(widget.initialSession != null ? 'Edit la séance' : 'Crée la séance'),
+        centerTitle: true,
+        title: Text(
+          widget.initialSession != null ? 'Edit la séance' : 'Crée la séance',
+        ),
       ),
-      body:  Container(
+      body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -405,165 +407,232 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
             ],
           ),
         ),
-            child: _isLoading
+        child:
+            _isLoading
                 ? Center(child: CircularProgressIndicator())
                 : Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 500, // Largeur maximale du formulaire
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 500, // Largeur maximale du formulaire
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Form(
+                        key: _formKey,
+                        child: ListView(
+                          children: [
+                            DropdownButtonFormField<Movie>(
+                              dropdownColor: Colors.black,
+                              value: _selectedMovie,
+                              decoration: customInputDecoration('Film'),
+                              items:
+                                  _movies.map((Movie movie) {
+                                    return DropdownMenuItem<Movie>(
+                                      value: movie,
+                                      child: Text(
+                                        movie.title,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    );
+                                  }).toList(),
+                              onChanged: (Movie? value) {
+                                setState(() => _selectedMovie = value);
+                              },
+                              validator:
+                                  (value) =>
+                                      value == null
+                                          ? 'Sélectionner un film'
+                                          : null,
+                            ),
+                            SizedBox(height: 10),
+                            DropdownButtonFormField<String>(
+                              dropdownColor: Colors.black,
+                              value: _sessionType,
+                              decoration: customInputDecoration(
+                                'Type de séance',
+                              ),
+                              items:
+                                  ['Normal', '3D', 'VIP'].map((String type) {
+                                    return DropdownMenuItem<String>(
+                                      value: type,
+                                      child: Text(
+                                        type,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    );
+                                  }).toList(),
+                              onChanged: (String? value) {
+                                setState(() => _sessionType = value!);
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            ListTile(
+                              shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                              ),
+                              title: Text(
+                                'Date',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              trailing: Icon(
+                                Icons.calendar_today,
+                                color: Colors.white,
+                              ),
+                              onTap: () => _selectDate(context),
+                            ),
+                            SizedBox(height: 10),
+                            ListTile(
+                              shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                              ),
+                              title: Text(
+                                'Time',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                _selectedTime.format(context),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              trailing: Icon(
+                                Icons.access_time,
+                                color: Colors.white,
+                              ),
+                              onTap: () => _selectTime(context),
+                            ),
+                            SizedBox(height: 10),
+                            TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              decoration: customInputDecoration('Prix'),
+                              keyboardType: TextInputType.number,
+                              //initialValue: _price.toString(),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Entrez un prix';
+                                }
+                                if (int.tryParse(value) == null) {
+                                  return 'Entrez un prix valide';
+                                }
+                                return null;
+                              },
+                              onChanged:
+                                  (value) =>
+                                      _price = int.tryParse(value) ?? _price,
+                            ),
+                            SizedBox(height: 10),
+                            TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              decoration: customInputDecoration(
+                                'Nombre de places',
+                              ),
+                              keyboardType: TextInputType.number,
+                              //initialValue: _availableSeats.toString(),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Entrez le nombre de place svp';
+                                }
+                                if (int.tryParse(value) == null) {
+                                  return 'Entrez une valeur valide';
+                                }
+                                return null;
+                              },
+                              onChanged:
+                                  (value) =>
+                                      _availableSeats =
+                                          int.tryParse(value) ??
+                                          _availableSeats,
+                            ),
+                            SizedBox(height: 10),
+                            TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                labelText: 'Salle',
+                                labelStyle: TextStyle(color: Colors.white),
+                                fillColor: Colors.white,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2,
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                              ),
+                              //initialValue: _room,
+                              validator:
+                                  (value) =>
+                                      value == null || value.isEmpty
+                                          ? 'Entrez le nom de la salle'
+                                          : null,
+                              onChanged: (value) => _room = value,
+                            ),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(200, 50),
+                                backgroundColor:
+                                    Colors.black12, // Couleur du bouton
+                                foregroundColor:
+                                    Colors.white, // Couleur du texte
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    12,
+                                  ), // Bordures arrondies
+                                ),
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onPressed: _isLoading ? null : _submitForm,
+                              child: Text(
+                                widget.initialSession != null
+                                    ? 'Mettre a jour la séance'
+                                    : 'Créé la séance',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    DropdownButtonFormField<Movie>(
-                      dropdownColor: Colors.black,
-                      value: _selectedMovie,
-                      decoration: customInputDecoration('Film'),
-                      items: _movies.map((Movie movie) {
-                        return DropdownMenuItem<Movie>(
-                          value: movie,
-                          child: Text(movie.title,style: TextStyle(color: Colors.white),),
-                        );
-                      }).toList(),
-                      onChanged: (Movie? value) {
-                        setState(() => _selectedMovie = value);
-                      },
-                      validator: (value) =>
-                      value == null ? 'Sélectionner un film' : null,
-                    ),
-                    SizedBox(height: 10,),
-                    DropdownButtonFormField<String>(
-                      dropdownColor: Colors.black,
-                      value: _sessionType,
-                      decoration: customInputDecoration('Type de séance'),
-                      items: ['Normal', '3D', 'VIP'].map((String type) {
-                        return DropdownMenuItem<String>(
-                          value: type,
-                          child: Text(type,style: TextStyle(color: Colors.white),),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {
-                        setState(() => _sessionType = value!);
-                      },
-                    ),
-                    SizedBox(height: 10,),
-                    ListTile(
-                      shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white, width: 1),
-                      ),
-                      title: Text('Date',style: TextStyle(color: Colors.white),),
-                      subtitle: Text(
-                        '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Icon(Icons.calendar_today,color: Colors.white,),
-                      onTap: () => _selectDate(context),
-                    ),
-                    SizedBox(height: 10,),
-                    ListTile(
-                      shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white, width: 1),
-                      ),
-                      title: Text('Time',style: TextStyle(color: Colors.white),),
-                      subtitle: Text(_selectedTime.format(context),style: TextStyle(color: Colors.white),),
-                      trailing: Icon(Icons.access_time,color: Colors.white,),
-                      onTap: () => _selectTime(context),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      style: TextStyle(color: Colors.white),
-                      decoration: customInputDecoration('Prix'),
-                      keyboardType: TextInputType.number,
-                      //initialValue: _price.toString(),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Entrez un prix';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Entrez un prix valide';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) =>
-                      _price = int.tryParse(value) ?? _price,
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      style: TextStyle(color: Colors.white),
-                      decoration: customInputDecoration('Nombre de places'),
-                      keyboardType: TextInputType.number,
-                      //initialValue: _availableSeats.toString(),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Entrez le nombre de place svp';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Entrez une valeur valide';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) =>
-                      _availableSeats = int.tryParse(value) ?? _availableSeats,
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                          labelText: 'Salle',
-                        labelStyle: TextStyle(color: Colors.white),
-                        fillColor: Colors.white,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                          BorderSide(color: Colors.grey.shade400, width: 1),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.white, width: 2),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
-                        contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),),
-                      //initialValue: _room,
-                      validator: (value) =>
-                      value == null || value.isEmpty ? 'Entrez le nom de la salle' : null,
-                      onChanged: (value) => _room = value,
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(200, 50),
-                        backgroundColor: Colors.black12, // Couleur du bouton
-                        foregroundColor: Colors.white, // Couleur du texte
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(12), // Bordures arrondies
-                        ),
-                        textStyle: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: _isLoading ? null : _submitForm,
-                      child: Text(widget.initialSession != null ? 'Mettre a jour la séance' : 'Créé la séance'),
-                    ),
-                  ],
-                ),
-                        ),
-                      ),
-              ),
-            ),
-          ),
+      ),
     );
   }
 }
