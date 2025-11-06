@@ -1,8 +1,9 @@
-import 'package:dashbord_cine/views/create_seesion_page.dart';
+import 'package:dashbord_cine/views/old/create_seesion_page.dart';
+import 'package:dashbord_cine/views/modern_create_session_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../services/session_service.dart';
-import '../models/session_model.dart';
+import '../../services/session_service.dart';
+import '../../models/session_model.dart';
 
 class SessionsPage extends StatefulWidget {
   const SessionsPage({super.key});
@@ -121,7 +122,7 @@ class _SessionsPageState extends State<SessionsPage> {
         onPressed: () async {
           final result = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateSessionPage()),
+            MaterialPageRoute(builder: (context) => CreateSessionPagee()),
           );
           if (result == true) _loadSessions();
         },

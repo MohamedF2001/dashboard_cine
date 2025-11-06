@@ -241,9 +241,9 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
 
 import 'package:dashbord_cine/models/movie_response.dart';
 import 'package:flutter/material.dart';
-import '../services/session_service.dart';
-import '../models/session_model.dart';
-import '../widgets/style.dart';
+import '../../services/session_service.dart';
+import '../../models/session_model.dart';
+import '../../widgets/style.dart';
 
 class CreateSessionPage extends StatefulWidget {
   final Session? initialSession;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/reservation_response.dart';
-import '../services/reservation_service.dart';
+import '../../models/reservation_response.dart';
+import '../../services/reservation_service.dart';
 
 class ReservationsPage extends StatefulWidget {
   const ReservationsPage({super.key});
@@ -97,7 +97,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
                 '${reservation.formattedDate} at ${reservation.formattedTime}',
               ),
               SizedBox(height: 24),
-              if (reservation.statut.toLowerCase() == 'confirmée')
+              /*if (reservation.statut.toLowerCase() == 'confirmée')
                 ElevatedButton(
                   //onPressed: () => _cancelReservation(reservation.id),
                   onPressed: () {},
@@ -109,7 +109,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
                   style: TextStyle(
                     color: Colors.white
                   ),),
-                ),
+                ),*/
             ],
           ),
         );

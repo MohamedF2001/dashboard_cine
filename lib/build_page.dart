@@ -1,6 +1,6 @@
-import 'package:dashbord_cine/views/movie_page.dart';
-import 'package:dashbord_cine/views/reservation_page.dart';
-import 'package:dashbord_cine/views/session_page.dart';
+import 'package:dashbord_cine/views/old/movie_page.dart';
+import 'package:dashbord_cine/views/old/reservation_page.dart';
+import 'package:dashbord_cine/views/old/session_page.dart';
 import 'package:flutter/material.dart';
 
 Widget buildPage(int index) {

@@ -1,7 +1,7 @@
 import 'package:dashbord_cine/widgets/popular_movie.dart';
 import 'package:flutter/material.dart';
-import '../widgets/horizontal_movie_list.dart';
-import '../widgets/top_rated_movie.dart';
+import '../../widgets/horizontal_movie_list.dart';
+import '../../widgets/top_rated_movie.dart';
 
 class MoviesPage extends StatefulWidget {
   const MoviesPage({super.key});
